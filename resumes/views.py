@@ -18,7 +18,7 @@ def resume_create(request):
     ]
 
     if request.method == "POST":
-        if form.is_valid() and all(fs.is_valid() for _, fs in formset):
+        if form.is_valid() and all(fs.is_valid() for _, fs in formsets):
             with transaction.atomic():
                 form.save()
                 for _, fs in formsets:
