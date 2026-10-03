@@ -94,7 +94,8 @@ class Award(models.Model):
     title = models.CharField("عنوان" , max_length = 100)
     issuer = models.CharField("نهاد صادرکننده" , max_length = 100 , blank = True)
     date = models.CharField("تاریخ" ,  max_length = 30 , blank = True)
-
+    link = models.URLField("لینک مدرک یا گواهینامه" , blank = True)
+    
     class Meta:
         verbose_name = "افتخار یا گواهینامه"
         verbose_name_plural = "افتخارات و گواهینامه‌ها"
