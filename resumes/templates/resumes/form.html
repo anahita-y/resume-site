@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ثبت رزومه</title>
+  <style>
+    body { font-family: Tahoma, sans-serif; background: #f4f6f8; margin: 0; }
+    .wrap { max-width: 760px; margin: 24px auto; background: #fff; padding: 24px; border-radius: 12px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 17px; border-bottom: 2px solid #e3e7ea; padding-bottom: 6px; margin-top: 32px; }
+    .block { background: #fafbfc; border: 1px solid #e3e7ea; border-radius: 8px; padding: 8px 16px; margin: 12px 0; }
+    input[type=text], input[type=email], input[type=url], select, textarea { width: 100%; padding: 8px; box-sizing: border-box; font-family: inherit; }
+    ul { list-style: none; padding: 0; }
+    .errorlist { color: #c0392b; padding: 0; list-style: none; }
+    button { background: #2d6cdf; color: #fff; border: 0; padding: 12px 28px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 24px; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>فرم ثبت رزومه</h1>
+  <form method="post">
+    {% csrf_token %}
+
+    <h2>اطلاعات شخصی</h2>
+    {{ form.as_p }}
+
+    {% for title, fs in formsets %}
+      <h2>{{ title }}</h2>
+      {{ fs.management_form }}
+      {% for f in fs %}
+        <div class="block">{{ f.as_p }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <button type="submit">ارسال رزومه</button>
+  </form>
+</div>
+
+<script>
+  const status = document.getElementById("id_status");
+  const collab = document.getElementById("id_collaboration").closest("p");
+  function toggleCollab() {
+    collab.style.display = status.value === "graduate_collab" ? "" : "none";
+  }
+  status.addEventListener("change", toggleCollab);
+  toggleCollab();
+</script>
+</body>
+</html>

@@ -24,7 +24,7 @@ def resume_create(request):
                 for _, fs in formsets:
                     fs.save()
             return redirect("resumes:success")
-    return render(request , "resumes.form.html" , {"form" : form , "formsets" : formsets})
+    return render(request , "resumes/form.html" , {"form" : form , "formsets" : formsets})
 
 def success(request):
     return render(request , "resumes/success.html")

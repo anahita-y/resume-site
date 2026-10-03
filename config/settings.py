@@ -124,4 +124,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = 'fa'
-TIMME_ZONE ='Asia/Tehran'
+TIME_ZONE ='Asia/Tehran'
