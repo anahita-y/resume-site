@@ -14,7 +14,7 @@ class Skill(models.Model):
 
 
 class Resume(models.Model):
-    firs_name = models.CharField("نام" , max_length = 50)
+    first_name = models.CharField("نام" , max_length = 50)
     last_name = models.CharField("نام خانوادگی" , max_length = 50)
     email = models.EmailField("ایمیل")
     phone = models.CharField("شماره تماس" , max_length = 20)
