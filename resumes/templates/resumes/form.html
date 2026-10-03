@@ -9,11 +9,14 @@
     .wrap { max-width: 760px; margin: 24px auto; background: #fff; padding: 24px; border-radius: 12px; }
     h1 { font-size: 22px; }
     h2 { font-size: 17px; border-bottom: 2px solid #e3e7ea; padding-bottom: 6px; margin-top: 32px; }
-    .block { background: #fafbfc; border: 1px solid #e3e7ea; border-radius: 8px; padding: 8px 16px; margin: 12px 0; }
+    .block { background: #fafbfc; border: 1px solid #e3e7ea; border-radius: 8px; padding: 8px 16px 12px; margin: 12px 0; }
     input[type=text], input[type=email], input[type=url], select, textarea { width: 100%; padding: 8px; box-sizing: border-box; font-family: inherit; }
     ul { list-style: none; padding: 0; }
     .errorlist { color: #c0392b; padding: 0; list-style: none; }
-    button { background: #2d6cdf; color: #fff; border: 0; padding: 12px 28px; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 24px; }
+    button { font-family: inherit; cursor: pointer; border-radius: 8px; border: 0; }
+    .submit { background: #2d6cdf; color: #fff; padding: 12px 28px; font-size: 16px; margin-top: 24px; }
+    .add { background: #e8f0fe; color: #1a4fb5; padding: 8px 16px; font-size: 14px; border: 1px dashed #2d6cdf; }
+    .remove { background: transparent; color: #c0392b; font-size: 13px; padding: 4px 0; }
   </style>
 </head>
 <body>
@@ -26,18 +29,36 @@
     {{ form.as_p }}
 
     {% for title, fs in formsets %}
-      <h2>{{ title }}</h2>
-      {{ fs.management_form }}
-      {% for f in fs %}
-        <div class="block">{{ f.as_p }}</div>
-      {% endfor %}
+      <section class="section" data-prefix="{{ fs.prefix }}">
+        <h2>{{ title }}</h2>
+        {{ fs.management_form }}
+
+        <div class="forms">
+          {% for f in fs %}
+            <div class="block">
+              {{ f.as_p }}
+              <button type="button" class="remove">حذف این مورد</button>
+            </div>
+          {% endfor %}
+        </div>
+
+        <template class="empty">
+          <div class="block">
+            {{ fs.empty_form.as_p }}
+            <button type="button" class="remove">حذف این مورد</button>
+          </div>
+        </template>
+
+        <button type="button" class="add">+ افزودن مورد جدید به «{{ title }}»</button>
+      </section>
     {% endfor %}
 
-    <button type="submit">ارسال رزومه</button>
+    <button type="submit" class="submit">ارسال رزومه</button>
   </form>
 </div>
 
 <script>
+  // نمایش فیلد «نوع همکاری» فقط برای فارغ‌التحصیل همکار
   const status = document.getElementById("id_status");
   const collab = document.getElementById("id_collaboration").closest("p");
   function toggleCollab() {
@@ -45,6 +66,26 @@
   }
   status.addEventListener("change", toggleCollab);
   toggleCollab();
+
+  // دکمه‌ی افزودن و حذف برای هر بخش
+  document.querySelectorAll(".section").forEach(function (sec) {
+    const prefix = sec.dataset.prefix;
+    const total = sec.querySelector("#id_" + prefix + "-TOTAL_FORMS");
+    const tpl = sec.querySelector("template.empty");
+    const box = sec.querySelector(".forms");
+
+    sec.querySelector(".add").addEventListener("click", function () {
+      const idx = parseInt(total.value, 10);
+      box.insertAdjacentHTML("beforeend", tpl.innerHTML.replace(/__prefix__/g, idx));
+      total.value = idx + 1;
+    });
+
+    sec.addEventListener("click", function (e) {
+      if (e.target.classList.contains("remove")) {
+        e.target.closest(".block").remove();
+      }
+    });
+  });
 </script>
 </body>
 </html>
