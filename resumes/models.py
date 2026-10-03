@@ -17,10 +17,17 @@ class Resume(models.Model):
     firs_name = models.CharField("نام" , max_length = 50)
     last_name = models.CharField("نام خانوادگی" , max_length = 50)
     email = models.EmailField("ایمیل")
-    phone = models.charField("شماره تماس" , max_length = 20)
+    phone = models.CharField("شماره تماس" , max_length = 20)
     github = models.URLField("لینک گیت‌هاب" , blank = True)
     linkedin = models.URLField("لینک لینکدین" , blank = True)
     summary = models.TextField("درباره من (خلاصه)" , blank = True)
+    STATUS_CHOIES = [
+        ("student", "دانشجوی فعلی"),
+        ("graduate_collab", "فارغ‌التحصیل و همکار دانشگاه"),
+        ("graduate", "فارغ‌التحصیل"),
+    ]
+    status = models.CharField("وضعیت" , max_length = 20 , choices = STATUS_CHOIES , default = "student")
+    collaboration = models.CharField("نوع همکاری با دانشگاه (مثلاً عضو انجمن، دستیار آموزشی، پژوهشگر)" , max_length = 150 , blank = True)
     skills = models.ManyToManyField(Skill , verbose_name = "مهارت‌ها" , blank = True)
     created_at = models.DateField("تاریخ ثبت" , auto_now_add = True)
 
@@ -31,7 +38,7 @@ class Resume(models.Model):
 
 
     def __set__(self):
-        return f"{self.firs_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}"
 
 
 
