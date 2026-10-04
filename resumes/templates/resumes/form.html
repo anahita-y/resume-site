@@ -1,36 +1,85 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ثبت رزومه</title>
+  <title>ثبت رزومه | دانشگاه شهرکرد</title>
   <style>
-    body { font-family: Tahoma, sans-serif; background: #f4f6f8; margin: 0; }
-    .wrap { max-width: 760px; margin: 24px auto; background: #fff; padding: 24px; border-radius: 12px; }
-    h1 { font-size: 22px; }
-    h2 { font-size: 17px; border-bottom: 2px solid #e3e7ea; padding-bottom: 6px; margin-top: 32px; }
-    .block { background: #fafbfc; border: 1px solid #e3e7ea; border-radius: 8px; padding: 8px 16px 12px; margin: 12px 0; }
-    input[type=text], input[type=email], input[type=url], select, textarea { width: 100%; padding: 8px; box-sizing: border-box; font-family: inherit; }
-    ul { list-style: none; padding: 0; }
-    .errorlist { color: #c0392b; padding: 0; list-style: none; }
-    button { font-family: inherit; cursor: pointer; border-radius: 8px; border: 0; }
-    .submit { background: #2d6cdf; color: #fff; padding: 12px 28px; font-size: 16px; margin-top: 24px; }
-    .add { background: #e8f0fe; color: #1a4fb5; padding: 8px 16px; font-size: 14px; border: 1px dashed #2d6cdf; }
-    .remove { background: transparent; color: #c0392b; font-size: 13px; padding: 4px 0; }
+    :root { --blue: #12458f; --blue2: #2d6cdf; --soft: #eef3fa; --line: #d9e2f0; --text: #1f2937; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Vazirmatn, Tahoma, sans-serif; background: linear-gradient(180deg, #e8eff9 0, #f5f7fb 320px); color: var(--text); line-height: 1.9; }
+    .wrap { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+    header { background: #fff; border-radius: 16px; padding: 18px 24px; box-shadow: 0 4px 18px rgba(18,69,143,.10); border-bottom: 4px solid var(--blue); }
+    .logos { display: flex; justify-content: space-between; align-items: center; }
+    .logos img.uni { height: 160px; }
+    .logos img.assoc { height: 116px; }
+    .intro { text-align: center; margin-top: 8px; }
+    .intro .bismillah { font-size: 17px; color: var(--blue); font-weight: 700; margin: 0; }
+    .intro h1 { margin: 6px 0 4px; font-size: 24px; color: var(--blue); }
+
+    section.card { background: #fff; border-radius: 16px; padding: 8px 24px 22px; margin-top: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+    section.card h2 { display: flex; align-items: center; gap: 10px; font-size: 18px; color: var(--blue); margin: 18px 0 8px; }
+    section.card h2 .n { background: var(--blue); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
+
+    p { margin: 12px 0 0; }
+    label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    input[type=text], input[type=email], input[type=url], select, textarea {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px;
+      font-family: inherit; font-size: 14px; background: #fbfcfe; transition: .15s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(45,108,223,.15); }
+
+    #id_skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    #id_skills > div, #id_skills > li { list-style: none; }
+    #id_skills label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; }
+    #id_skills input { accent-color: var(--blue); }
+    ul { list-style: none; padding: 0; margin: 0; }
+    .errorlist { color: #c0392b; font-size: 13px; padding: 0; margin: 4px 0 0; list-style: none; }
+    .helptext { color: #6b7280; font-size: 12px; }
+
+    .block { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 14px; margin-top: 14px; }
+    button { font-family: inherit; cursor: pointer; border-radius: 10px; border: 0; }
+    .add { margin-top: 14px; background: #fff; color: var(--blue2); border: 1.5px dashed var(--blue2); padding: 9px 18px; font-size: 14px; }
+    .add:hover { background: #f0f5ff; }
+    .remove { background: transparent; color: #c0392b; font-size: 13px; padding: 6px 0 0; }
+
+    .submit { display: block; width: 100%; margin: 22px 0 8px; background: linear-gradient(90deg, var(--blue), var(--blue2)); color: #fff; padding: 14px; font-size: 17px; font-weight: 700; box-shadow: 0 6px 16px rgba(18,69,143,.25); }
+    footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 8px 0 24px; }
+    @media (max-width: 560px) {
+      .logos img.uni { height: 112px; }
+      .logos img.assoc { height: 84px; }
+      .intro h1 { font-size: 19px; }
+      section.card { padding: 6px 14px 18px; }
+    }
   </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>فرم ثبت رزومه</h1>
+
+  <header>
+    <div class="logos">
+      <img class="uni" src="{% static 'resumes/img/logo_university.jpg' %}" alt="دانشگاه شهرکرد">
+      <img class="assoc" src="{% static 'resumes/img/logo_association.jpg' %}" alt="انجمن علمی هوش مصنوعی">
+    </div>
+    <div class="intro">
+      <p class="bismillah">به نام خدا</p>
+      <h1>رزومه‌ی امروز شما، آینده‌ی صنعت را می‌سازد</h1>
+    </div>
+  </header>
+
   <form method="post">
     {% csrf_token %}
 
-    <h2>اطلاعات شخصی</h2>
-    {{ form.as_p }}
+    <section class="card">
+      <h2><span class="n">۱</span> اطلاعات شخصی</h2>
+      {{ form.as_p }}
+    </section>
 
     {% for title, fs in formsets %}
-      <section class="section" data-prefix="{{ fs.prefix }}">
-        <h2>{{ title }}</h2>
+      <section class="card section" data-prefix="{{ fs.prefix }}">
+        <h2><span class="n">{{ forloop.counter|add:1 }}</span> {{ title }}</h2>
         {{ fs.management_form }}
 
         <div class="forms">
@@ -49,16 +98,17 @@
           </div>
         </template>
 
-        <button type="button" class="add">+ افزودن مورد جدید به «{{ title }}»</button>
+        <button type="button" class="add">+ افزودن مورد جدید</button>
       </section>
     {% endfor %}
 
     <button type="submit" class="submit">ارسال رزومه</button>
   </form>
+
+  <footer>معاونت فرهنگی و اجتماعی دانشگاه شهرکرد · انجمن علمی هوش مصنوعی و اینترنت اشیا</footer>
 </div>
 
 <script>
-  // نمایش فیلد «نوع همکاری» فقط برای فارغ‌التحصیل همکار
   const status = document.getElementById("id_status");
   const collab = document.getElementById("id_collaboration").closest("p");
   function toggleCollab() {
@@ -67,7 +117,6 @@
   status.addEventListener("change", toggleCollab);
   toggleCollab();
 
-  // دکمه‌ی افزودن و حذف برای هر بخش
   document.querySelectorAll(".section").forEach(function (sec) {
     const prefix = sec.dataset.prefix;
     const total = sec.querySelector("#id_" + prefix + "-TOTAL_FORMS");
