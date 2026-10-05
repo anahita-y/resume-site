@@ -31,10 +31,10 @@
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(45,108,223,.15); }
 
-    #id_skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    #id_skills > div, #id_skills > li { list-style: none; }
-    #id_skills label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; }
-    #id_skills input { accent-color: var(--blue); }
+    #id_skills, #id_interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    #id_skills > div, #id_skills > li, #id_interests > div, #id_interests > li { list-style: none; }
+    #id_skills label, #id_interests label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; }
+    #id_skills input, #id_interests input { accent-color: var(--blue); }
     ul { list-style: none; padding: 0; margin: 0; }
     .errorlist { color: #c0392b; font-size: 13px; padding: 0; margin: 4px 0 0; list-style: none; }
     .helptext { color: #6b7280; font-size: 12px; }

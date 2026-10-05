@@ -1,5 +1,5 @@
 from django.db import models
-
+import uuid
 class Skill(models.Model):
     name = models.CharField("مهارت" , max_length = 50 , unique = True)
 
@@ -10,7 +10,16 @@ class Skill(models.Model):
     def __str__(self):
         return  self.name
 
+class Interest(models.Model):
+    name = models.CharField("حوزه" , max_length = 50 , unique = True)
 
+
+    class Meta:
+        verbose_name = "حوزه‌ی علاقه"
+        verbose_name_plural = "حوزه‌های علاقه"
+
+    def __str__(self):
+        return self.name
 
 
 class Resume(models.Model):
@@ -29,8 +38,10 @@ class Resume(models.Model):
     status = models.CharField("وضعیت" , max_length = 20 , choices = STATUS_CHOIES , default = "student")
     collaboration = models.CharField("نوع همکاری با دانشگاه (مثلاً عضو انجمن، دستیار آموزشی، پژوهشگر)" , max_length = 150 , blank = True)
     skills = models.ManyToManyField(Skill , verbose_name = "مهارت‌ها" , blank = True)
+    interests = models.ManyToManyField(Interest , verbose_name = "حوزه‌های مورد علاقه" , blank = True)
     created_at = models.DateField("تاریخ ثبت" , auto_now_add = True)
-
+    token = models.UUIDField(default = uuid.uuid4 ,editable = False , db_index = True)
+    pdf = models.FileField("فایل PDF" ,  upload_to = "resume_pdfs/" , blank = True)
     class Meta:
         verbose_name = "رزومه"
         verbose_name_plural = "رزومه ها"
@@ -99,3 +110,23 @@ class Award(models.Model):
     class Meta:
         verbose_name = "افتخار یا گواهینامه"
         verbose_name_plural = "افتخارات و گواهینامه‌ها"
+
+
+
+class Language(models.Model):
+    LEVELS = [
+        ("basic", "مقدماتی"),
+        ("intermediate", "متوسط"),
+        ("advanced", "پیشرفته"),
+        ("fluent", "مسلط"),
+        ("native", "زبان مادری"),
+    ]
+    resume = models.ForeignKey(Resume , on_delete = models.CASCADE , related_name = "languages")
+    name = models.CharField("زبان" , max_length = 50)
+    level = models.CharField("سطح" , max_length = 20 , choices = LEVELS)
+
+    class Meta:
+        verbose_name = "زبان"
+        verbose_name_plural = "زبان‌ها"
+
+        

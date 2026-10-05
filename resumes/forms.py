@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import inlineformset_factory
-from .models import Skill, Resume, Education, Experience, Project, Award
+from .models import Skill,Interest , Resume, Education, Experience, Project, Award , Language
 
 
 def fix_url(value):
@@ -18,6 +18,12 @@ class ResumeForm(forms.ModelForm):
         label = "مهارت‌ها" ,
     )
 
+    interests = forms.ModelMultipleChoiceField(
+        queryset = Interest.objects.all() ,
+        widget = forms.CheckboxSelectMultiple,
+        required = False,
+        label = "به کدام حوزه‌ها علاقه دارید؟",
+    )
     github = forms.CharField(label = "لینک گیت‌هاب" , required = False)
     linkedin = forms.CharField(label = "لینک لینکدین" , required = False)
 
@@ -88,5 +94,13 @@ AwardFormSet = inlineformset_factory(
     Award ,
     form = AwardForm ,
     extra = 1 ,
+    can_delete = False ,
+)
+
+LanguageFormSet = inlineformset_factory(
+    Resume , 
+    Language ,
+    fields = ["name" , "level"] ,
+    extra = 1 , 
     can_delete = False ,
 )

@@ -1,9 +1,11 @@
-from django.db import transaction 
-from django.shortcuts import render , redirect
-from .forms import (ResumeForm , EducationFormSet , ExperienceFormSet,
-                    ProjectFormSet , AwardFormSet ,)
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db import transaction
+from django.shortcuts import get_object_or_404 , redirect , render
+from .forms import (
+    ResumeForm , EducationFormSet , ExperienceFormSet ,
+    ProjectFormSet , AwardFormSet , LanguageFormSet ,
+)
 from .models import Resume
-
 
 def resume_create(request):
     resume = Resume()
@@ -11,10 +13,11 @@ def resume_create(request):
 
     form = ResumeForm(data , instance = resume)
     formsets = [
-        ("تحصیلات", EducationFormSet(data, instance=resume)),
-        ("تجربه‌ها", ExperienceFormSet(data, instance=resume)),
-        ("پروژه‌ها", ProjectFormSet(data, instance=resume)),
-        ("افتخارات و گواهینامه‌ها", AwardFormSet(data, instance=resume)),
+        ("تحصیلات", EducationFormSet(data, instance=resume)) ,
+        ("تجربه‌ها", ExperienceFormSet(data, instance=resume)) ,
+        ("پروژه‌ها", ProjectFormSet(data, instance=resume)) ,
+        ("افتخارات و گواهینامه‌ها", AwardFormSet(data, instance=resume)) ,
+        ("سطح زبان", LanguageFormSet(data, instance=resume)) ,
     ]
 
     if request.method == "POST":
@@ -28,3 +31,10 @@ def resume_create(request):
 
 def success(request):
     return render(request , "resumes/success.html")
+
+
+
+@staff_member_required
+def resume_preview(request , pk):
+    resume = get_object_or_404(Resume , pk = pk)
+    return render(request , "resumes/resume_pdf.html", {"resume": resume})

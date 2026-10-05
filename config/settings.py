@@ -125,3 +125,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = 'fa'
 TIME_ZONE ='Asia/Tehran'
+
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
