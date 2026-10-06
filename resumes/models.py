@@ -38,6 +38,7 @@ class Resume(models.Model):
     status = models.CharField("وضعیت" , max_length = 20 , choices = STATUS_CHOIES , default = "student")
     collaboration = models.CharField("نوع همکاری با دانشگاه (مثلاً عضو انجمن، دستیار آموزشی، پژوهشگر)" , max_length = 150 , blank = True)
     skills = models.ManyToManyField(Skill , verbose_name = "مهارت‌ها" , blank = True)
+    other_skills = models.CharField("مهارت‌های دیگر" , max_length = 1000 , blank = True)
     interests = models.ManyToManyField(Interest , verbose_name = "حوزه‌های مورد علاقه" , blank = True)
     created_at = models.DateField("تاریخ ثبت" , auto_now_add = True)
     token = models.UUIDField(default = uuid.uuid4 ,editable = False , db_index = True)

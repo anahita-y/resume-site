@@ -52,7 +52,7 @@ class LanguageInline(admin.TabularInline):
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "email", "status", pdf_link , "created_at")
-    search_fields = ("first_name", "last_name", "email")
+    search_fields = ("first_name", "last_name", "email" , "other_skills")
     list_filter = ("status", "skills" , "interests")
     filter_horizontal = ("skills", "interests")
     inlines = [EducationInline,  ExperienceInline, ProjectInline, AwardInline , LanguageInline]

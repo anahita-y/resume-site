@@ -16,7 +16,7 @@ _SPECIAL = {
     "^": r"\textasciicircum{}",
 }
 
-_LATIN_RUN = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9@._/:+#%&=?~\- ]*[A-Za-z0-9/.])?")
+_LATIN_RUN = re.compile(r"[A-Za-z0-9](?:[A-Za-z0-9@._/:+#%&=?~\- ]*[A-Za-z0-9/.+#])?")
 
 
 def _escape(text):
@@ -34,3 +34,11 @@ def tex(value):
         pos = m.end()
     out.append(_escape(text[pos:]))
     return "".join(out)
+
+
+@register.filter
+def shorturl(value):
+    text = str(value or "").strip()
+    text = re.sub(r"^https?://", "", text, flags=re.I)
+    text = re.sub(r"^www\.", "", text, flags=re.I)
+    return text.rstrip("/")

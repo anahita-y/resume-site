@@ -7,13 +7,14 @@
 \definecolor{muted}{HTML}{6B7280}
 {% endverbatim %}
 \settextfont[Path={{ font_dir }}, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold]{Vazirmatn}
+\setlatintextfont[Path={{ font_dir }}, Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold]{Vazirmatn}
 {% verbatim %}
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \linespread{1.25}
 \newcommand{\sectiontitle}[1]{%
-  \par\vspace{9pt}{\large\bfseries\color{brand} #1}\par\vspace{-2pt}%
-  {\color{brand}\hrule height 0.8pt}\vspace{5pt}}
+  \par\vspace{18pt}{\large\bfseries\color{brand} #1}\par\vspace{3pt}%
+  {\color{brand}\hrule height 0.8pt}\vspace{9pt}}
 \newcommand{\meta}[1]{{\small\color{muted} #1}}
 
 \begin{document}
@@ -25,11 +26,12 @@
 {\color{brand}\hrule height 2pt}
 \vspace{10pt}
 
-{\Huge\bfseries\color{brand} {{ resume.first_name|tex }} {{ resume.last_name|tex }} }\par
+{\Huge\bfseries\color{brand} {% filter tex %}{{ resume.first_name }} {{ resume.last_name }}{% endfilter %} }\par
 \meta{ {{ resume.get_status_display|tex }}{% if resume.collaboration %} -- {{ resume.collaboration|tex }}{% endif %} }\par
 \vspace{4pt}
 {\small
-{{ resume.email|tex }} \quad|\quad {{ resume.phone|tex }}{% if resume.github %} \quad|\quad {{ resume.github|tex }}{% endif %}{% if resume.linkedin %} \quad|\quad {{ resume.linkedin|tex }}{% endif %}
+{{ resume.phone|tex }} \quad|\quad {{ resume.email|tex }}\par
+{% if resume.github or resume.linkedin %}{% if resume.github %}{{ resume.github|shorturl|tex }}{% endif %}{% if resume.github and resume.linkedin %} \quad|\quad {% endif %}{% if resume.linkedin %}{{ resume.linkedin|shorturl|tex }}{% endif %}\par{% endif %}
 }\par
 
 {% if resume.summary %}\sectiontitle{درباره من}
@@ -37,7 +39,7 @@
 
 {% if resume.educations.all %}\sectiontitle{تحصیلات}
 {% for ed in resume.educations.all %}\textbf{ {{ ed.get_degree_display|tex }} {{ ed.field|tex }} }\hfill \meta{ {{ ed.start_year|tex }} -- {% if ed.end_year %}{{ ed.end_year|tex }}{% else %}تاکنون{% endif %} }\\
-{{ ed.university|tex }}{% if ed.gpa %} \quad \meta{ معدل {{ ed.gpa|tex }} }{% endif %}\par\vspace{4pt}
+{{ ed.university|tex }}{% if ed.gpa %} \quad \meta{ معدل {{ ed.gpa|tex }} }{% endif %}\par\vspace{8pt}
 {% endfor %}{% endif %}
 
 {% if resume.experiences.all %}\sectiontitle{تجربه‌ها}
@@ -46,16 +48,16 @@
 {% endif %}{% if e.action or e.result %}\begin{itemize}\setlength{\itemsep}{0pt}
 {% if e.action %}\item {{ e.action|tex }}
 {% endif %}{% if e.result %}\item {{ e.result|tex }}
-{% endif %}\end{itemize}{% endif %}\vspace{4pt}
+{% endif %}\end{itemize}{% endif %}\vspace{8pt}
 {% endfor %}{% endif %}
 
 {% if resume.projects.all %}\sectiontitle{پروژه‌ها}
-{% for p in resume.projects.all %}\textbf{ {{ p.title|tex }} }{% if p.link %}\hfill \meta{ {{ p.link|tex }} }{% endif %}\par
-{% if p.description %}{{ p.description|tex }}\par{% endif %}\vspace{4pt}
+{% for p in resume.projects.all %}\textbf{ {{ p.title|tex }} }{% if p.link %}\hfill \meta{ {{ p.link|shorturl|tex }} }{% endif %}\par
+{% if p.description %}{{ p.description|tex }}\par{% endif %}\vspace{8pt}
 {% endfor %}{% endif %}
 
-{% if resume.skills.all %}\sectiontitle{مهارت‌ها}
-{% for s in resume.skills.all %}{{ s.name|tex }}{% if not forloop.last %}، {% endif %}{% endfor %}\par{% endif %}
+{% if resume.skills.all or resume.other_skills %}\sectiontitle{مهارت‌ها}
+{% for s in resume.skills.all %}{{ s.name|tex }}{% if not forloop.last %}، {% endif %}{% endfor %}{% if resume.skills.all and resume.other_skills %}، {% endif %}{{ resume.other_skills|tex }}\par{% endif %}
 
 {% if resume.interests.all %}\sectiontitle{حوزه‌های مورد علاقه}
 {% for i in resume.interests.all %}{{ i.name|tex }}{% if not forloop.last %}، {% endif %}{% endfor %}\par{% endif %}
@@ -65,7 +67,7 @@
 
 {% if resume.awards.all %}\sectiontitle{دستاوردها و گواهینامه‌ها}
 {% for a in resume.awards.all %}\textbf{ {{ a.title|tex }} }{% if a.issuer %} -- {{ a.issuer|tex }}{% endif %}{% if a.date %}\hfill \meta{ {{ a.date|tex }} }{% endif %}\par
-{% if a.link %}\meta{ {{ a.link|tex }} }\par{% endif %}\vspace{3pt}
+{% if a.link %}\meta{ {{ a.link|shorturl|tex }} }\par{% endif %}\vspace{6pt}
 {% endfor %}{% endif %}
 
 \end{document}{% endautoescape %}

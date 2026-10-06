@@ -1,3 +1,6 @@
+
+
+Form · HTML
 {% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -10,7 +13,7 @@
     * { box-sizing: border-box; }
     body { margin: 0; font-family: Vazirmatn, Tahoma, sans-serif; background: linear-gradient(180deg, #e8eff9 0, #f5f7fb 320px); color: var(--text); line-height: 1.9; }
     .wrap { max-width: 800px; margin: 0 auto; padding: 16px; }
-
+ 
     header { background: #fff; border-radius: 16px; padding: 18px 24px; box-shadow: 0 4px 18px rgba(18,69,143,.10); border-bottom: 4px solid var(--blue); }
     .logos { display: flex; justify-content: space-between; align-items: center; }
     .logos img.uni { height: 160px; }
@@ -18,11 +21,11 @@
     .intro { text-align: center; margin-top: 8px; }
     .intro .bismillah { font-size: 17px; color: var(--blue); font-weight: 700; margin: 0; }
     .intro h1 { margin: 6px 0 4px; font-size: 24px; color: var(--blue); }
-
+ 
     section.card { background: #fff; border-radius: 16px; padding: 8px 24px 22px; margin-top: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
     section.card h2 { display: flex; align-items: center; gap: 10px; font-size: 18px; color: var(--blue); margin: 18px 0 8px; }
     section.card h2 .n { background: var(--blue); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; }
-
+ 
     p { margin: 12px 0 0; }
     label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
     input[type=text], input[type=email], input[type=url], select, textarea {
@@ -30,21 +33,34 @@
       font-family: inherit; font-size: 14px; background: #fbfcfe; transition: .15s;
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(45,108,223,.15); }
-
+ 
     #id_skills, #id_interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
     #id_skills > div, #id_skills > li, #id_interests > div, #id_interests > li { list-style: none; }
-    #id_skills label, #id_interests label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; }
+    #id_skills label, #id_interests label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; margin: 0; }
     #id_skills input, #id_interests input { accent-color: var(--blue); }
     ul { list-style: none; padding: 0; margin: 0; }
     .errorlist { color: #c0392b; font-size: 13px; padding: 0; margin: 4px 0 0; list-style: none; }
-    .helptext { color: #6b7280; font-size: 12px; }
-
+    .helptext { color: #6b7280; font-size: 12px; display: block; margin-top: 4px; }
+    .optional { color: #6b7280; font-size: 12px; font-weight: 400; margin-right: 6px; }
+    .alert { background: #fdecea; border: 1.5px solid #e0a39b; color: #a8281b; border-radius: 12px; padding: 10px 16px; margin-top: 18px; font-size: 14px; }
+ 
+    details.dd { border: 1.5px solid var(--line); border-radius: 10px; background: #fbfcfe; margin-top: 4px; }
+    details.dd summary { padding: 10px 12px; cursor: pointer; font-size: 14px; list-style: none; color: #4b5563; }
+    details.dd summary::-webkit-details-marker { display: none; }
+    details.dd[open] summary { border-bottom: 1px solid var(--line); }
+    .dd-body { padding: 10px 12px; max-height: 260px; overflow-y: auto; }
+    .dd-body input[type=text] { margin-bottom: 10px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .chip { background: var(--blue); color: #fff; border-radius: 999px; padding: 2px 12px; font-size: 13px; cursor: pointer; }
+    .count { font-weight: 700; color: var(--blue); margin-right: 8px; }
+    .count.over { color: #c0392b; }
+ 
     .block { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px 14px; margin-top: 14px; }
     button { font-family: inherit; cursor: pointer; border-radius: 10px; border: 0; }
     .add { margin-top: 14px; background: #fff; color: var(--blue2); border: 1.5px dashed var(--blue2); padding: 9px 18px; font-size: 14px; }
     .add:hover { background: #f0f5ff; }
     .remove { background: transparent; color: #c0392b; font-size: 13px; padding: 6px 0 0; }
-
+ 
     .submit { display: block; width: 100%; margin: 22px 0 8px; background: linear-gradient(90deg, var(--blue), var(--blue2)); color: #fff; padding: 14px; font-size: 17px; font-weight: 700; box-shadow: 0 6px 16px rgba(18,69,143,.25); }
     footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 8px 0 24px; }
     @media (max-width: 560px) {
@@ -57,7 +73,7 @@
 </head>
 <body>
 <div class="wrap">
-
+ 
   <header>
     <div class="logos">
       <img class="uni" src="{% static 'resumes/img/logo_university.jpg' %}" alt="دانشگاه شهرکرد">
@@ -68,20 +84,71 @@
       <h1>رزومه‌ی امروز شما، آینده‌ی صنعت را می‌سازد</h1>
     </div>
   </header>
-
+ 
   <form method="post">
     {% csrf_token %}
-
+    {{ form.non_field_errors }}
+ 
+    {% if form.errors %}
+      <div class="alert">
+        {% for field in form %}{% for e in field.errors %}<div>{{ field.label }}: {{ e }}</div>{% endfor %}{% endfor %}
+      </div>
+    {% endif %}
+    {% for title, fs in formsets %}{% if fs.total_error_count %}
+      <div class="alert">
+        <strong>{{ title }}:</strong>
+        {% for e in fs.non_form_errors %}<div>{{ e }}</div>{% endfor %}
+        {% for f in fs %}{% for name, errs in f.errors.items %}{% for e in errs %}<div>{{ e }}</div>{% endfor %}{% endfor %}{% endfor %}
+      </div>
+    {% endif %}{% endfor %}
+ 
     <section class="card">
-      <h2><span class="n">۱</span> اطلاعات شخصی</h2>
-      {{ form.as_p }}
+      <h2><span class="n">1</span> اطلاعات شخصی</h2>
+      {% for field in form %}
+        {% if field.name != "skills" and field.name != "other_skills" and field.name != "interests" %}
+          <p>{{ field.label_tag }}{{ field.errors }}{{ field }}</p>
+        {% endif %}
+      {% endfor %}
     </section>
-
+ 
+    <section class="card">
+      <h2><span class="n">2</span> مهارت‌ها و علاقه‌مندی‌ها</h2>
+ 
+      <label>مهارت‌های مهم و مرتبط با حوزه‌ات را انتخاب کن <span class="count" id="skill-count">0 / 20</span></label>
+      <details class="dd" id="skills-dd">
+        <summary>برای انتخاب مهارت اینجا کلیک کن ▾</summary>
+        <div class="dd-body">
+          <input type="text" id="skill-search" placeholder="جستجوی مهارت...">
+          {{ form.skills }}
+        </div>
+      </details>
+      <div class="chips" id="skill-chips"></div>
+      {{ form.skills.errors }}
+ 
+      <p>
+        <label for="{{ form.other_skills.id_for_label }}">مهارت دیگری داری که در لیست نبود؟</label>
+        {{ form.other_skills }}
+        <span class="helptext">مهارت‌ها را با کاما از هم جدا کن. مجموع مهارت‌ها حداکثر ۲۰ مورد است.</span>
+        {{ form.other_skills.errors }}
+      </p>
+ 
+      <p>
+        <label>به کدام حوزه‌ها علاقه داری؟ <span class="optional">(اختیاری)</span></label>
+        <details class="dd" id="interests-dd">
+          <summary>برای انتخاب حوزه‌ها اینجا کلیک کن (اختیاری) ▾</summary>
+          <div class="dd-body">
+            {{ form.interests }}
+          </div>
+        </details>
+        {{ form.interests.errors }}
+      </p>
+    </section>
+ 
     {% for title, fs in formsets %}
       <section class="card section" data-prefix="{{ fs.prefix }}">
-        <h2><span class="n">{{ forloop.counter|add:1 }}</span> {{ title }}</h2>
+        <h2><span class="n">{{ forloop.counter|add:2 }}</span> {{ title }}</h2>
         {{ fs.management_form }}
-
+ 
         <div class="forms">
           {% for f in fs %}
             <div class="block">
@@ -90,51 +157,112 @@
             </div>
           {% endfor %}
         </div>
-
+ 
         <template class="empty">
           <div class="block">
             {{ fs.empty_form.as_p }}
             <button type="button" class="remove">حذف این مورد</button>
           </div>
         </template>
-
+ 
         <button type="button" class="add">+ افزودن مورد جدید</button>
       </section>
     {% endfor %}
-
+ 
     <button type="submit" class="submit">ارسال رزومه</button>
   </form>
-
+ 
   <footer>معاونت فرهنگی و اجتماعی دانشگاه شهرکرد · انجمن علمی هوش مصنوعی و اینترنت اشیا</footer>
 </div>
-
+ 
 <script>
-  const status = document.getElementById("id_status");
-  const collab = document.getElementById("id_collaboration").closest("p");
+  // فیلد «نوع همکاری» فقط برای فارغ‌التحصیل همکار
+  var statusEl = document.getElementById("id_status");
+  var collab = document.getElementById("id_collaboration").closest("p");
   function toggleCollab() {
-    collab.style.display = status.value === "graduate_collab" ? "" : "none";
+    collab.style.display = statusEl.value === "graduate_collab" ? "" : "none";
   }
-  status.addEventListener("change", toggleCollab);
+  statusEl.addEventListener("change", toggleCollab);
   toggleCollab();
-
+ 
+  // افزودن و حذف ردیف برای بخش‌های تکرارشونده
   document.querySelectorAll(".section").forEach(function (sec) {
-    const prefix = sec.dataset.prefix;
-    const total = sec.querySelector("#id_" + prefix + "-TOTAL_FORMS");
-    const tpl = sec.querySelector("template.empty");
-    const box = sec.querySelector(".forms");
-
+    var prefix = sec.dataset.prefix;
+    var total = sec.querySelector("#id_" + prefix + "-TOTAL_FORMS");
+    var tpl = sec.querySelector("template.empty");
+    var box = sec.querySelector(".forms");
+ 
     sec.querySelector(".add").addEventListener("click", function () {
-      const idx = parseInt(total.value, 10);
+      var idx = parseInt(total.value, 10);
       box.insertAdjacentHTML("beforeend", tpl.innerHTML.replace(/__prefix__/g, idx));
       total.value = idx + 1;
     });
-
+ 
     sec.addEventListener("click", function (e) {
       if (e.target.classList.contains("remove")) {
         e.target.closest(".block").remove();
       }
     });
   });
+ 
+  // انتخاب مهارت: جستجو، شمارنده و سقف ۲۰ مورد
+  (function () {
+    var MAX = 20;
+    var list = document.getElementById("id_skills");
+    var other = document.getElementById("id_other_skills");
+    var counter = document.getElementById("skill-count");
+    var chips = document.getElementById("skill-chips");
+    var search = document.getElementById("skill-search");
+    var boxes = Array.prototype.slice.call(list.querySelectorAll("input[type=checkbox]"));
+ 
+    function fa(n) { return Number(n).toLocaleString("fa-IR"); }
+ 
+    function otherCount() {
+      var seen = {}, c = 0;
+      other.value.split(/[,،;\n]+/).forEach(function (s) {
+        s = s.trim().toLowerCase();
+        if (s && !seen[s]) { seen[s] = 1; c++; }
+      });
+      return c;
+    }
+ 
+    function update() {
+      var checked = boxes.filter(function (b) { return b.checked; });
+      var total = checked.length + otherCount();
+      counter.textContent = fa(total) + " / " + fa(MAX);
+      counter.className = total > MAX ? "count over" : "count";
+      boxes.forEach(function (b) { b.disabled = !b.checked && total >= MAX; });
+      chips.innerHTML = "";
+      checked.forEach(function (b) {
+        var chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = b.closest("label").textContent.trim() + " ✕";
+        chip.onclick = function () { b.checked = false; update(); };
+        chips.appendChild(chip);
+      });
+    }
+ 
+    boxes.forEach(function (b) { b.addEventListener("change", update); });
+    other.addEventListener("input", update);
+ 
+    search.addEventListener("input", function () {
+      var q = search.value.trim().toLowerCase();
+      boxes.forEach(function (b) {
+        var label = b.closest("label");
+        label.parentElement.style.display = label.textContent.toLowerCase().indexOf(q) !== -1 ? "" : "none";
+      });
+    });
+    search.addEventListener("keydown", function (e) { if (e.key === "Enter") e.preventDefault(); });
+ 
+    // بستن هر دو کشو با کلیک بیرون از آن‌ها
+    document.addEventListener("click", function (e) {
+      document.querySelectorAll("details.dd").forEach(function (d) {
+        if (!d.contains(e.target)) d.open = false;
+      });
+    });
+    update();
+  })();
 </script>
 </body>
 </html>
+ 

@@ -1,6 +1,12 @@
+import re 
 from django import forms
 from django.forms import inlineformset_factory
-from .models import Skill,Interest , Resume, Education, Experience, Project, Award , Language
+from .models import (Skill,Interest , Resume, 
+                    Education, Experience, 
+                    Project, Award , Language)
+
+
+MAX_SKILLS = 20
 
 
 def fix_url(value):
@@ -9,7 +15,14 @@ def fix_url(value):
         value = "https://" + value
     return value
 
-
+def split_skills(text):
+    seen , items = set() , []
+    for part in re.split(r"[,،;\n]+" , text or ""):
+        item = part.strip()
+        if item and  item.lower() not in seen:
+            seen.add(item.lower())
+            items.append(item)
+    return items
 class ResumeForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
         queryset = Skill.objects.all() ,
@@ -18,12 +31,20 @@ class ResumeForm(forms.ModelForm):
         label = "مهارت‌ها" ,
     )
 
+    other_skills = forms.CharField(
+        required = False ,
+        max_length = 1000 ,
+        label = "مهارت‌های دیگر" ,
+        widget = forms.TextInput(attrs = {"placeholder" : "مثلاً: Docker، Redis، Figma"}) ,
+    )
+
     interests = forms.ModelMultipleChoiceField(
         queryset = Interest.objects.all() ,
-        widget = forms.CheckboxSelectMultiple,
-        required = False,
-        label = "به کدام حوزه‌ها علاقه دارید؟",
+        widget = forms.CheckboxSelectMultiple ,
+        required = False ,
+        label = "به کدام حوزه‌ها علاقه دارید؟" ,
     )
+
     github = forms.CharField(label = "لینک گیت‌هاب" , required = False)
     linkedin = forms.CharField(label = "لینک لینکدین" , required = False)
 
@@ -33,12 +54,30 @@ class ResumeForm(forms.ModelForm):
     def clean_linkedin(self):
         return fix_url(self.cleaned_data["linkedin"])
 
+    def clean_other_skills(self):
+        items = split_skills(self.cleaned_data.get("other_skills" , ""))
+        for item in items:
+            if len(item) > 40:
+                raise forms.ValidationError("هر مهارت حداکثر ۴۰ حرف باشد.")
+        return "، ".join(items)
+
+    def clean(self):
+        cleaned = super().clean()
+        selected = cleaned.get("skills")
+        chosen = selected.count() if selected is not None else 0
+        typed = len(split_skills(cleaned.get("other_skills" , "")))
+        if chosen + typed > MAX_SKILLS:
+            self.add_error(
+                "skills" ,
+                f"حداکثر {MAX_SKILLS} مهارت می‌توانید وارد کنید ((الان {chosen + typed} مورد وارد شده)." ,
+            )
+        return cleaned
     class Meta:
         model = Resume
         fields = [
             "first_name" , "last_name" , "email" , "phone" ,
             "github" , "linkedin" , "status" , "collaboration" ,
-            "summary" , "skills" ,
+            "summary" , "skills" , "other_skills" , "interests" ,
         ]
         widgets = {"summary": forms.Textarea(attrs={"rows": 4})}
 
