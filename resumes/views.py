@@ -1,11 +1,17 @@
+import logging
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import transaction
+from django.http import FileResponse , Http404
 from django.shortcuts import get_object_or_404 , redirect , render
 from .forms import (
     ResumeForm , EducationFormSet , ExperienceFormSet ,
     ProjectFormSet , AwardFormSet , LanguageFormSet ,
 )
+from .latex import build_resume_pdf
 from .models import Resume
+
+logger = logging.getLogger(__name__)
+
 
 def resume_create(request):
     resume = Resume()
@@ -23,14 +29,33 @@ def resume_create(request):
     if request.method == "POST":
         if form.is_valid() and all(fs.is_valid() for _, fs in formsets):
             with transaction.atomic():
-                form.save()
+                resume = form.save()
                 for _, fs in formsets:
                     fs.save()
-            return redirect("resumes:success")
-    return render(request , "resumes/form.html" , {"form" : form , "formsets" : formsets})
+            try:
+                build_resume_pdf(resume)
+            except Exception:
+                logger.exception("PDF build failed for resume %s", resume.pk)
+            return redirect("resumes:success", token=resume.token)
 
-def success(request):
-    return render(request , "resumes/success.html")
+    return render(request, "resumes/form.html", {"form": form, "formsets": formsets})
+
+
+def success(request , token):
+    resume = get_object_or_404(Resume , token = token)
+    return render(request , "resumes/success.html" , {"resume"  : resume})
+
+
+def download(request, token):
+    resume = get_object_or_404(Resume, token=token)
+    if not resume.pdf:
+        raise Http404("PDF not ready")
+    return FileResponse(
+        resume.pdf.open("rb") ,
+        as_attachment=True ,
+        filename=f"resume_{resume.pk}.pdf" ,
+        content_type="application/pdf" ,
+    )
 
 
 
