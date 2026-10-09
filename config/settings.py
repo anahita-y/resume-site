@@ -11,14 +11,20 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
 
+
 ALLOWED_HOSTS = [
     h.strip()
-    for h in os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+    for h in os.environ.get(
+        "DJANGO_ALLOWED_HOSTS",
+        "127.0.0.1,localhost"
+    ).split(",")
     if h.strip()
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://" + h for h in ALLOWED_HOSTS if h not in ("127.0.0.1", "localhost")
+    f"https://{h}"
+    for h in ALLOWED_HOSTS
+    if h not in ("127.0.0.1", "localhost")
 ]
 
 if not DEBUG:
