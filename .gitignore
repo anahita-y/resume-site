@@ -1,9 +1,13 @@
 venv/
+.venv/
 __pycache__/
-*.pyc 
+*.pyc
 db.sqlite3
-.env
-.vscode/
 media/
+staticfiles/
+.env
 latex_test.*
 texput.log
+*.aux
+*.log
+*.pdf
