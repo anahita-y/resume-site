@@ -1,6 +1,7 @@
 import os
-import sys
-import traceback
+import shutil
+import subprocess
+import threading
 
 import django
 from django.core.management import call_command
@@ -9,18 +10,28 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from django.conf import settings
-from django.db import connection
+call_command("collectstatic", interactive=False, verbosity=0)
+call_command("migrate", interactive=False, verbosity=0)
 
-print("DB PATH:", settings.DATABASES["default"]["NAME"], flush=True)
+LATEX_PACKAGES = (
+    "texlive-xetex texlive-lang-arabic texlive-latex-recommended "
+    "texlive-latex-extra texlive-fonts-recommended"
+)
 
-try:
-    call_command("collectstatic", interactive=False, verbosity=0)
-    call_command("migrate", interactive=False, verbosity=1, stdout=sys.stdout)
-    tables = connection.introspection.table_names()
-    print("TABLES:", sorted(tables), flush=True)
-except Exception:
-    traceback.print_exc()
-    sys.stderr.flush()
+
+def _ensure_latex():
+    if shutil.which("xelatex") or os.geteuid() != 0:
+        return
+    print("LATEX: installing in background...", flush=True)
+    env = {**os.environ, "DEBIAN_FRONTEND": "noninteractive"}
+    cmd = (
+        "apt-get update && "
+        f"apt-get install -y --no-install-recommends {LATEX_PACKAGES}"
+    )
+    result = subprocess.run(cmd, shell=True, env=env)
+    print(f"LATEX: install finished with code {result.returncode}", flush=True)
+
+
+threading.Thread(target=_ensure_latex, daemon=True).start()
 
 application = get_wsgi_application()
