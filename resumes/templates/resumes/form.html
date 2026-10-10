@@ -1,6 +1,3 @@
-
-
-Form · HTML
 {% load static %}
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
@@ -34,10 +31,10 @@ Form · HTML
     }
     input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue2); background: #fff; box-shadow: 0 0 0 3px rgba(45,108,223,.15); }
  
-    #id_skills, #id_interests { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    #id_skills > div, #id_skills > li, #id_interests > div, #id_interests > li { list-style: none; }
-    #id_skills label, #id_interests label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; margin: 0; }
-    #id_skills input, #id_interests input { accent-color: var(--blue); }
+    #id_skills, #id_interests, #id_work_types { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    #id_skills > div, #id_skills > li, #id_interests > div, #id_interests > li, #id_work_types > div, #id_work_types > li { list-style: none; }
+    #id_skills label, #id_interests label, #id_work_types label { display: inline-flex; align-items: center; gap: 6px; background: var(--soft); border: 1.5px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 400; cursor: pointer; margin: 0; }
+    #id_skills input, #id_interests input, #id_work_types input { accent-color: var(--blue); }
     ul { list-style: none; padding: 0; margin: 0; }
     .errorlist { color: #c0392b; font-size: 13px; padding: 0; margin: 4px 0 0; list-style: none; }
     .helptext { color: #6b7280; font-size: 12px; display: block; margin-top: 4px; }
@@ -105,14 +102,14 @@ Form · HTML
     <section class="card">
       <h2><span class="n">1</span> اطلاعات شخصی</h2>
       {% for field in form %}
-        {% if field.name != "skills" and field.name != "other_skills" and field.name != "interests" %}
+        {% if field.name != "skills" and field.name != "other_skills" and field.name != "interests" and field.name != "work_types" and field.name != "future_plan" %}
           <p>{{ field.label_tag }}{{ field.errors }}{{ field }}</p>
         {% endif %}
       {% endfor %}
     </section>
  
     <section class="card">
-      <h2><span class="n">2</span> مهارت‌ها و علاقه‌مندی‌ها</h2>
+      <h2><span class="n">2</span> مهارت‌ها</h2>
  
       <label>مهارت‌های مهم و مرتبط با حوزه‌ات را انتخاب کن <span class="count" id="skill-count">0 / 20</span></label>
       <details class="dd" id="skills-dd">
@@ -131,7 +128,10 @@ Form · HTML
         <span class="helptext">مهارت‌ها را با کاما از هم جدا کن. مجموع مهارت‌ها حداکثر ۲۰ مورد است.</span>
         {{ form.other_skills.errors }}
       </p>
+    </section>
  
+    <section class="card">
+      <h2><span class="n">3</span> علاقه‌مندی‌ها</h2>
       <p>
         <label>به کدام حوزه‌ها علاقه داری؟ <span class="optional">(اختیاری)</span></label>
         <details class="dd" id="interests-dd">
@@ -144,9 +144,23 @@ Form · HTML
       </p>
     </section>
  
+    <section class="card">
+      <h2><span class="n">4</span> شرایط کاری و برنامه‌ی آینده</h2>
+      <p>
+        <label>شرایط کاری مورد نظرت چطوره؟ <span class="optional">(اختیاری، می‌توانی چند مورد انتخاب کنی)</span></label>
+        {{ form.work_types }}
+        {{ form.work_types.errors }}
+      </p>
+      <p>
+        <label for="{{ form.future_plan.id_for_label }}">برنامه‌ی آینده‌ات چیه؟ <span class="optional">(اختیاری)</span></label>
+        {{ form.future_plan }}
+        {{ form.future_plan.errors }}
+      </p>
+    </section>
+ 
     {% for title, fs in formsets %}
       <section class="card section" data-prefix="{{ fs.prefix }}">
-        <h2><span class="n">{{ forloop.counter|add:2 }}</span> {{ title }}</h2>
+        <h2><span class="n">{{ forloop.counter|add:4 }}</span> {{ title }}</h2>
         {{ fs.management_form }}
  
         <div class="forms">
@@ -265,4 +279,3 @@ Form · HTML
 </script>
 </body>
 </html>
- 

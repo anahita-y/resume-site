@@ -1,7 +1,7 @@
 import re 
 from django import forms
 from django.forms import inlineformset_factory
-from .models import (Skill,Interest , Resume, 
+from .models import (Skill,Interest , WorkCondition , Resume, 
                     Education, Experience, 
                     Project, Award , Language)
 
@@ -45,6 +45,13 @@ class ResumeForm(forms.ModelForm):
         label = "به کدام حوزه‌ها علاقه دارید؟" ,
     )
 
+    work_types = forms.ModelMultipleChoiceField(
+        queryset = WorkCondition.objects.all() ,
+        widget = forms.CheckboxSelectMultiple ,
+        required = False ,
+        label = "شرایط کاری مورد نظر" ,
+    )
+
     github = forms.CharField(label = "لینک گیت‌هاب" , required = False)
     linkedin = forms.CharField(label = "لینک لینکدین" , required = False)
 
@@ -78,8 +85,12 @@ class ResumeForm(forms.ModelForm):
             "first_name" , "last_name" , "email" , "phone" ,
             "github" , "linkedin" , "status" , "collaboration" ,
             "summary" , "skills" , "other_skills" , "interests" ,
+            "work_types" , "future_plan" ,
         ]
-        widgets = {"summary": forms.Textarea(attrs={"rows": 4})}
+        widgets = {
+            "summary" : forms.Textarea(attrs = {"rows" : 4}) ,
+            "future_plan" : forms.Textarea(attrs = {"rows" : 3 , "placeholder" : "مثلاً: ادامه تحصیل، کار در حوزه‌ی بک‌اند، راه‌اندازی استارتاپ"}) ,
+        }
 
 
 class ProjectForm(forms.ModelForm):

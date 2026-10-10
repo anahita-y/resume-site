@@ -59,9 +59,6 @@
 {% if resume.skills.all or resume.other_skills %}\sectiontitle{مهارت‌ها}
 {% for s in resume.skills.all %}{{ s.name|tex }}{% if not forloop.last %}، {% endif %}{% endfor %}{% if resume.skills.all and resume.other_skills %}، {% endif %}{{ resume.other_skills|tex }}\par{% endif %}
 
-{% if resume.interests.all %}\sectiontitle{حوزه‌های مورد علاقه}
-{% for i in resume.interests.all %}{{ i.name|tex }}{% if not forloop.last %}، {% endif %}{% endfor %}\par{% endif %}
-
 {% if resume.languages.all %}\sectiontitle{زبان‌ها}
 {% for l in resume.languages.all %}{{ l.name|tex }} \meta{ ({{ l.get_level_display|tex }}) }{% if not forloop.last %}\quad{% endif %}{% endfor %}\par{% endif %}
 

@@ -22,6 +22,17 @@ class Interest(models.Model):
         return self.name
 
 
+class WorkCondition(models.Model):
+    name = models.CharField("شرایط کاری" , max_length = 50 , unique = True)
+
+    class Meta:
+        verbose_name = "شرایط کاری"
+        verbose_name_plural = "شرایط کاری"
+
+    def __str__(self):
+        return self.name
+
+
 class Resume(models.Model):
     first_name = models.CharField("نام" , max_length = 50)
     last_name = models.CharField("نام خانوادگی" , max_length = 50)
@@ -40,6 +51,8 @@ class Resume(models.Model):
     skills = models.ManyToManyField(Skill , verbose_name = "مهارت‌ها" , blank = True)
     other_skills = models.CharField("مهارت‌های دیگر" , max_length = 1000 , blank = True)
     interests = models.ManyToManyField(Interest , verbose_name = "حوزه‌های مورد علاقه" , blank = True)
+    work_types = models.ManyToManyField(WorkCondition , verbose_name = "شرایط کاری مورد نظر" , blank = True)
+    future_plan = models.TextField("برنامه‌ی آینده" , blank = True)
     created_at = models.DateField("تاریخ ثبت" , auto_now_add = True)
     token = models.UUIDField(default = uuid.uuid4 ,editable = False , db_index = True)
     pdf = models.FileField("فایل PDF" ,  upload_to = "resume_pdfs/" , blank = True)
@@ -49,7 +62,7 @@ class Resume(models.Model):
         ordering = ["-created_at"]
 
 
-    def __set__(self):
+    def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
 
@@ -129,5 +142,3 @@ class Language(models.Model):
     class Meta:
         verbose_name = "زبان"
         verbose_name_plural = "زبان‌ها"
-
-        
